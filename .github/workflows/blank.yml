@@ -2,11 +2,11 @@ name: Terraform infra CI/C
 
 on:
   pull_request:
-    branches:
-      - main
+#    branches:
+#      - main
   push:
-    branches:
-      - main
+#    branches:
+#      - main
 
   workflow_dispatch:
     inputs:
@@ -51,7 +51,6 @@ jobs:
 
   terraform-plan:
     name: Terraform Plan
-    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
