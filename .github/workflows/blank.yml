@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
     inputs:
       run_apply:
-        description: "Do you want to run Terraform Apply?"
+        description: "Run Terraform destroy (Be careful...)"
         required: true
         type: boolean
 
