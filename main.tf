@@ -59,4 +59,4 @@ output "cluster_certificate_authority_data" {
 
 output "ecr_repository_url" {
   value = aws_ecr_repository.counter_service.repository_url
-}
+} 
