@@ -1,12 +1,8 @@
 name: Terraform infra CI/C
 
 on:
-  pull_request:
-#    branches:
-#      - main
-  push:
-#    branches:
-#      - main
+  pull_request: # Runs checks and plan on pull requests
+  push:         # Runs apply only on main branch pushes
 
   workflow_dispatch:
     inputs:
@@ -15,9 +11,8 @@ on:
         required: true
         type: boolean
 
-
 env:
-  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }} # AWS credentials for Terraform and provider access
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
 jobs:
@@ -32,22 +27,22 @@ jobs:
         uses: hashicorp/setup-terraform@v2
 
       - name: Terraform init upgrade
-        run: terraform init -upgrade
+        run: terraform init -upgrade # Initializes Terraform with latest module/provider versions
 
       - name: Terraform Validate
-        run: terraform validate
+        run: terraform validate # Validates syntax and structure of Terraform files
 
       - name: Check for Backend Configuration
         run: |
           if grep -q 'backend "s3"' *.tf; then
-            echo "✅ Backend S3 configuration found."
+            echo " Backend S3 configuration found."
           else
-            echo "❌ Missing backend configuration!" && exit 1
+            echo " Missing backend configuration!" && exit 1
           fi
 
       - name: Run TFLint
         uses: terraform-linters/setup-tflint@v1
-      - run: tflint --init && tflint
+      - run: tflint --init && tflint # Runs static analysis on Terraform code
 
   terraform-plan:
     name: Terraform Plan
@@ -60,14 +55,14 @@ jobs:
         uses: hashicorp/setup-terraform@v2
 
       - name: Terraform Init
-        run: terraform init
+        run: terraform init # Initializes Terraform working directory
 
       - name: Terraform Plan
-        run: terraform plan
+        run: terraform plan # Generates execution plan (dry run)
 
   terraform-apply:
     name: Terraform Apply
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push' # Only runs on direct push to main
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -80,11 +75,11 @@ jobs:
         run: terraform init
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve
+        run: terraform apply -auto-approve # Applies infrastructure changes without manual approval
 
   terraform-destroy:
     name: Terraform Destroy
-    if: ${{ github.event.inputs.run_apply == 'true' }}
+    if: ${{ github.event.inputs.run_apply == 'true' }} # Manual trigger with confirmation
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -97,4 +92,4 @@ jobs:
         run: terraform init
 
       - name: Terraform Destroy
-        run: terraform destroy -auto-approve
+        run: terraform destroy -auto-approve # Destroys all managed infrastructure
