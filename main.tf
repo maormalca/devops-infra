@@ -17,6 +17,8 @@ provider "aws" {
 resource "aws_ecr_repository" "counter_service" {
   name                  = "counter-service-repo"
   image_tag_mutability = "MUTABLE"
+  
+  force_delete = true   # this will remove all images when deleting the repo
 }
 
 # EKS cluster using a module
