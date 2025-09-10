@@ -1,12 +1,6 @@
 terraform {
   required_version = ">= 1.5.0"
 
-  backend "s3" {
-    bucket = "my-terraform-state-bucket-for-checkpoint-exam"   # Name of the bucket
-    key    = "eks/terraform.tfstate"                           # The path inside the buchet
-    region = "eu-north-1"                                      
-  }
-
   required_providers {
     aws = {
       source  = "hashicorp/aws"
