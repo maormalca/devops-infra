@@ -27,6 +27,9 @@ jobs:
       - name: Terraform Validate
         run: terraform validate
 
+      - name: Terraform init upgrade
+        run: Terraform init -upgrade
+
       - name: Check for Backend Configuration
         run: |
           if grep -q 'backend "s3"' *.tf; then
