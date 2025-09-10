@@ -57,10 +57,6 @@ output "cluster_certificate_authority_data" {
   value = module.eks.cluster_certificate_authority_data
 }
 
-output "kubeconfig" {
-  value = module.eks.kubeconfig
-}
-
 output "ecr_repository_url" {
   value = aws_ecr_repository.counter_service.repository_url
 }
