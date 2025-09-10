@@ -92,4 +92,4 @@ jobs:
         run: terraform init
 
       - name: Terraform Destroy
-        run: terraform destroy -auto-approve # Destroys all managed infrastructure
+        run: terraform destroy -auto-approve # Destroys all managed infrastructure 
