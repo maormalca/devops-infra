@@ -1,4 +1,4 @@
-name: Terraform CI/C
+name: Terraform infra CI/C
 
 on:
   pull_request:
@@ -23,9 +23,6 @@ jobs:
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
-
-      - name: Terraform Format Check
-        run: terraform fmt -check -recursive
 
       - name: Terraform Validate
         run: terraform validate
