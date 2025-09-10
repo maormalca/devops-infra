@@ -24,11 +24,11 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
 
-      - name: Terraform Validate
-        run: terraform validate
-
       - name: Terraform init upgrade
         run: Terraform init -upgrade
+
+      - name: Terraform Validate
+        run: terraform validate
 
       - name: Check for Backend Configuration
         run: |
